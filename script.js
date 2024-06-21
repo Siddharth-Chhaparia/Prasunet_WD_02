@@ -37,9 +37,24 @@ function lapReset() {
         const lapTime = getFormattedTime(Date.now() - startTime);
         const lapListItem = document.createElement('li');
         lapListItem.textContent = `Lap ${lapCounter++}: ${lapTime.minutes}:${lapTime.seconds}.${lapTime.milliseconds}`;
-        document.getElementById('lapsList').appendChild(lapListItem);
-        // Scroll to bottom of laps list
-        document.getElementById('lapsList').scrollTop = document.getElementById('lapsList').scrollHeight;
+        const lapsContainer = document.querySelector('.laps-container');
+
+        // Find the last ul element in the last column
+        let lastUl = lapsContainer.querySelector('.laps-column:last-child .laps-list');
+
+        // Check if the last ul has 8 children, if so, create a new column and ul
+        if (lastUl.childElementCount >= 8) {
+            const newColumn = document.createElement('div');
+            newColumn.classList.add('laps-column');
+            const newUl = document.createElement('ul');
+            newUl.classList.add('laps-list');
+            newColumn.appendChild(newUl);
+            lapsContainer.appendChild(newColumn);
+            lastUl = newUl;
+        }
+
+        // Append the lap to the last ul
+        lastUl.appendChild(lapListItem);
     }
 }
 
@@ -50,7 +65,8 @@ function restartStopwatch() {
     document.getElementById('milliseconds').textContent = '000';
     startTime = 0;
     lapCounter = 1;
-    document.getElementById('lapsList').innerHTML = '';
+    const lapsContainer = document.querySelector('.laps-container');
+    lapsContainer.innerHTML = '<div class="laps-column"><ul id="lapsList" class="laps-list"></ul></div>'; // Reset laps and start with a new list
     storedTime = 0; // Reset storedTime when restarting stopwatch
     const startStopBtn = document.getElementById('startStopBtn');
     startStopBtn.textContent = 'Start';
@@ -72,3 +88,9 @@ function getFormattedTime(elapsedTime) {
     let milliseconds = (elapsedTime % 1000).toString().padStart(3, '0');
     return { minutes, seconds, milliseconds };
 }
+
+// Initialize with an empty laps list
+document.addEventListener('DOMContentLoaded', () => {
+    const lapsContainer = document.querySelector('.laps-container');
+    lapsContainer.innerHTML = '<div class="laps-column"><ul id="lapsList" class="laps-list"></ul></div>';
+});

@@ -4,24 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fancy Stopwatch</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <div class="stopwatch">
             <div class="display">
-                <span id="minutes">00</span>:<span id="seconds">00</span>:<span id="milliseconds">000</span>
+                <span id="minutes">00</span>:<span id="seconds">00</span>.<span id="milliseconds">000</span>
             </div>
             <div class="controls">
                 <button id="startStopBtn" onclick="startStop()">Start</button>
-                <button id="lapResetBtn" onclick="lapReset()">Lap</button>
-                <button id="restartBtn" onclick="restartStopwatch()">Restart</button>
+                <button onclick="lapReset()">Lap</button>
+                <button onclick="restartStopwatch()">Restart</button>
             </div>
-            <ul id="lapsList" class="laps-list"></ul>
+        </div>
+        <div class="laps-container">
+            <div class="laps-column">
+                <ul id="lapsList" class="laps-list"></ul>
+            </div>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
